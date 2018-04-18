@@ -1,5 +1,5 @@
 /*随机生成图片*/
-
+const messageLength = 5; //设置显示的消息条数。
 function shuffle(array) {
     var currentIndex = array.length,
         temporaryValue, randomIndex;
@@ -143,58 +143,23 @@ var card = document.getElementsByClassName('card');
     let addId = document.getElementById("add-productId").value - 1;
     add(addId);
 }*/
-let message = [];
-
+var message = [];
 
 function check(boxId) {
     document.getElementById("message").innerHTML = '';
     let product_id = card[boxId].getElementsByTagName("i")[0].id;
     let state = card[boxId].getElementsByTagName("i")[1].className;
     if (state == "true") {
-        card[boxId].className = "card show open animated wobble";
+        card[boxId].className = "card show match animated wobble";
+        setMessage(messageLength, boxId, product_id, state);
         card[boxId].getElementsByTagName("i")[1].className = false;
         count = count - 1;
-        if (message.length < 5) {
-            card[boxId].className = "card show match ";
-            message.push('<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n');
-        } else if (message.length == 5) {
-            card[boxId].className = "card show match ";
-            for (let i = 0; i < message.length - 1; i++) {
-                message[i] = message[i + 1];
-            }
-            message[message.length - 1] = '<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n';
-        }
-        for (let i = 0; i < message.length; i++) {
-            document.getElementById("message").innerHTML += message[i];
-        }
     } else {
         card[boxId].className = "card show error";
         setTimeout(function() {
-        card[boxId].className = "card show match animated wobble";
-    },1000);
-
-        if (message.length < 5) {
-            message.push('<span class=\"faile\">' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n');
-        } else if (message.length == 5) {
-            for (let i = 0; i < message.length - 1; i++) {
-                message[i] = message[i + 1];
-            }
-            message[message.length - 1] = '<span class=\"faile\">' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
-        }
-        for (let i = 0; i < message.length; i++) {
-            document.getElementById("message").innerHTML += message[i];
-        }
-        /* if (document.getElementById("message").childElementCount < 5) {
-            setTimeout(function() {
-                message += '<span class=\"faile\">抱歉' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
-                document.getElementById("message").innerHTML = message;
-                card[boxId].className = "card show match animated wobble";
-            }, 500)
-        } else if (document.getElementById("message").childElementCount == 5) {
-            document.getElementById("message").children[4].innerHTML = '<span class=\"faile\">抱歉' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
-        }
-    }*/
-        // document.getElementById("check-productId").value = "";
+            card[boxId].className = "card show match animated wobble";
+        }, 1000);
+        setMessage(messageLength, boxId, product_id, state);
     }
     document.getElementsByClassName('count')[0].innerHTML = count + "个";
 
@@ -224,9 +189,27 @@ function getTime() {
     var date = "(" + (myDate.getMonth() + 1) + "月" + myDate.getDate() + "日" + myDate.getHours() + "时" + myDate.getMinutes() + "分" + myDate.getSeconds() + "秒)";
     return date;
 }
-/***************判断有多少个子节点***************/
-function test() {
-    var b = document.getElementById("message").childElementCount;
-    console.log(b);
+/***************设置消息显示函数***************/
+function setMessage(messageLength, boxId, product_id, state) {
+    if (message.length < messageLength) {
+        if (state == "true") {
+            message.push('<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n');
+        } else {
+            message.push('<span class=\"faile\">' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n');
+        }
+    } else if (message.length == messageLength) {
+        for (let i = 0; i < message.length - 1; i++) {
+            message[i] = message[i + 1];
+        }
+        if (state == "true") {
+            message[message.length - 1] = '<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n';
+
+        } else {
+            message[message.length - 1] = '<span class=\"faile\">' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
+
+        }
+    }
+    for (let i = 0; i < message.length; i++) {
+        document.getElementById("message").innerHTML += message[i];
+    }
 }
-test();
