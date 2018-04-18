@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>货柜提示</title>
+    <meta name="description" content="">
+    <link rel="stylesheet prefetch" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet prefetch" href="https://fonts.googleapis.com/css?family=Coda">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/animate.css">
+    
+</head>
+
+<body>
+    <div class="main">
+         <div class="container">
+        <div>
+            <span>剩余货柜数量：</span>
+            <span class="time">15个</span>
+        </div>
+        <ul class="deck">
+        </ul>
+    </div>
+    <div class="right">
+    <div class="symbol">
+            <div class="symbol-container">
+                <div class="warn"></div>
+                <span class="text">已存</span>
+            </div>
+            <div class="symbol-container">
+                <div class="warn match"></div>
+                <span class="text">已取</span>
+            </div>
+            <div class="symbol-container">
+                <div class="warn error"></div>
+                <span class="text">操作失败</span>
+            </div>
+        </div>
+        <div class="state">
+        <span class="title">状态栏</span>
+        <div class="message" id="message">
+           <!-- <span>物品:xxxx 已成功取出！10号货柜置空!</span>
+            <span>物品:xxxx 已成功取出！10号货柜置空!</span>
+            <span>物品:xxxx 已成功取出！10号货柜置空!</span>
+            <span class="saved">存货失败!10号货柜已满!</span>
+            <span class="faile">取货失败!10号货柜已置空！</span>-->
+        </div>
+    </div>
+</div>
+    </div>
+    <script src="js/app.js"></script>
+    <script type="text/javascript" src="js/listenMqttData.js"></script>
+</body>
+
+</html>
