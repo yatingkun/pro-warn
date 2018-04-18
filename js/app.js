@@ -110,7 +110,7 @@ function setcards() { //设置卡片。
 
 
     ];
-    let str = ''; 
+    let str = '';
     let i = 0;
     let num = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
     shuffle(cards_style);
@@ -143,32 +143,43 @@ var card = document.getElementsByClassName('card');
     let addId = document.getElementById("add-productId").value - 1;
     add(addId);
 }*/
-let message='';
+let message = '';
+
 function check(boxId) {
-        let product_id = card[boxId].getElementsByTagName("i")[0].id;
-        let state = card[boxId].getElementsByTagName("i")[1].className;
-        if (state == "true") {
-            card[boxId].className = "card show open animated wobble";
-            card[boxId].getElementsByTagName("i")[1].className = false;
-            count = count - 1;
-           
-                //alert("货物ID:" + product_id + "已成功取出!");
-                message+='<span class=\"saved\">货物'+product_id+'取出!货柜'+(boxId+1)+'置空'+ getTime() +'</span>\n';
-                document.getElementById("message").innerHTML=message;
-                card[boxId].className = "card show match ";
-            
-        } else {
-            card[boxId].className = "card show error";
+    let product_id = card[boxId].getElementsByTagName("i")[0].id;
+    let state = card[boxId].getElementsByTagName("i")[1].className;
+    if (state == "true") {
+        card[boxId].className = "card show open animated wobble";
+        card[boxId].getElementsByTagName("i")[1].className = false;
+        count = count - 1;
+        if (document.getElementById("message").childElementCount < 5) {
+            message += '<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n';
+            document.getElementById("message").innerHTML = message;
+            card[boxId].className = "card show match ";
+        } else if (document.getElementById("message").childElementCount == 5)
+            //alert("货物ID:" + product_id + "已成功取出!");
+            document.getElementById("message").children[4].innerHTML = '<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n';
+        //document.getElementById("message").innerHTML=message;
+        //card[boxId].className = "card show match ";
+
+    } else {
+        card[boxId].className = "card show error";
+        if (document.getElementById("message").childElementCount < 5) {
             setTimeout(function() {
                 //alert("抱歉" + boxId + "号货柜为空！取货失败!");
-                let message="抱歉" + boxId + "号货柜为空！取货失败!";
-                document.getElementById("state").innerHTML+=message;
+                // let message="抱歉" + boxId + "号货柜为空！取货失败!";
+                //document.getElementById("state").innerHTML+=message;
+                message += '<span class=\"faile\">抱歉' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
+                document.getElementById("message").innerHTML = message;
                 card[boxId].className = "card show match animated wobble";
-            }, 600)
+            }, 500)
+        }else if(document.getElementById("message").childElementCount == 5){
+          document.getElementById("message").children[4].innerHTML= '<span class=\"faile\">抱歉' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
         }
-       // document.getElementById("check-productId").value = "";
-    
-    document.getElementsByClassName('time')[0].innerHTML = count + "个";
+    }
+    // document.getElementById("check-productId").value = "";
+
+    document.getElementsByClassName('count')[0].innerHTML = count + "个";
 
 }
 /********接收添加的货柜号，做出相应处理*******/
@@ -187,12 +198,18 @@ function add(addId) {
         }, 600)
     }
     //document.getElementById("add-productId").value = "";
-    document.getElementsByClassName('time')[0].innerHTML = count + "个";
+    document.getElementsByClassName('count')[0].innerHTML = count + "个";
 }
- 
+
 /**********获取时间的函数**************/
-function getTime(){
+function getTime() {
     var myDate = new Date();
-    var date= "("+(myDate.getMonth()+1)+"月"+ myDate.getDate()+"日"+ myDate.getHours()+"时"+ myDate.getMinutes()+"分"+ myDate.getSeconds()+"秒)";
+    var date = "(" + (myDate.getMonth() + 1) + "月" + myDate.getDate() + "日" + myDate.getHours() + "时" + myDate.getMinutes() + "分" + myDate.getSeconds() + "秒)";
     return date;
 }
+/***************判断有多少个子节点***************/
+function test() {
+    var b = document.getElementById("message").childElementCount;
+    console.log(b);
+}
+test();
