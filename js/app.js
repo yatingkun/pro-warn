@@ -1,5 +1,7 @@
 /*随机生成图片*/
-const messageLength = 5; //设置显示的消息条数。
+const messageLength = 4; //设置显示的消息条数。
+var message = []; //存放消息的数组。
+var count = 15; //仓库的跟踪数。
 function shuffle(array) {
     var currentIndex = array.length,
         temporaryValue, randomIndex;
@@ -119,50 +121,36 @@ function setcards() { //设置卡片。
         i = i + 1;
     }
     document.getElementsByClassName("deck")[0].innerHTML = str;
-
-
 }
-
 
 function initial() { //初始化;
     setcards();
 }
 window.onload = initial;
 /******************************主要流程***********************************************/
-var count = 15;
 var card = document.getElementsByClassName('card');
-/********记录剩余仓库数***********/
-
-/********接收提取货柜号，做出相应处理*******/
-/**function getProduct() {
-    let boxId = document.getElementById("check-productId").value - 1;
-    check(boxId);
-}***/
-
-/*function addProduct() {
-    let addId = document.getElementById("add-productId").value - 1;
-    add(addId);
-}*/
-var message = [];
 
 function check(boxId) {
-    document.getElementById("message").innerHTML = '';
-    let product_id = card[boxId].getElementsByTagName("i")[0].id;
-    let state = card[boxId].getElementsByTagName("i")[1].className;
-    if (state == "true") {
-        card[boxId].className = "card show match animated wobble";
-        setMessage(messageLength, boxId, product_id, state);
-        card[boxId].getElementsByTagName("i")[1].className = false;
-        count = count - 1;
+    if (isNaN(parseInt(boxId, 10))||(boxId>15||boxId<1)) {
+        document.getElementById("message").innerHTML = '请输入1~15的数字！';
     } else {
-        card[boxId].className = "card show error";
-        setTimeout(function() {
+        document.getElementById("message").innerHTML = '';
+        let product_id = card[boxId].getElementsByTagName("i")[0].id;
+        let state = card[boxId].getElementsByTagName("i")[1].className;
+        if (state == "true") {
             card[boxId].className = "card show match animated wobble";
-        }, 1000);
-        setMessage(messageLength, boxId, product_id, state);
+            setMessage(messageLength, boxId, product_id, state);
+            card[boxId].getElementsByTagName("i")[1].className = false;
+            count = count - 1;
+        } else {
+            card[boxId].className = "card show error";
+            setTimeout(function() {
+                card[boxId].className = "card show match animated wobble";
+            }, 1000);
+            setMessage(messageLength, boxId, product_id, state);
+        }
     }
     document.getElementsByClassName('count')[0].innerHTML = count + "个";
-
 }
 /********接收添加的货柜号，做出相应处理*******/
 /*function add(addId) {
@@ -198,18 +186,17 @@ function setMessage(messageLength, boxId, product_id, state) {
             message.push('<span class=\"faile\">' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n');
         }
     } else if (message.length == messageLength) {
-        for (let i = 0; i < message.length - 1; i++) {
+        for (let i = 0; i < message.length - 1; i++) { //将信息数组各上调一个位置。
             message[i] = message[i + 1];
         }
-        if (state == "true") {
+        if (state == "true") { //设置消息数组最后一个位置的信息。
             message[message.length - 1] = '<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n';
 
         } else {
             message[message.length - 1] = '<span class=\"faile\">' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
-
         }
     }
-    for (let i = 0; i < message.length; i++) {
+    for (let i = 0; i < message.length; i++) { //将消息数组显示在message的div
         document.getElementById("message").innerHTML += message[i];
     }
 }

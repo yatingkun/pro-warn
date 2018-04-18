@@ -40,7 +40,7 @@ client.onMessageArrived = function(message) {
     var msg = message.payloadString;
     //console.log("接收到消息：");
     //console.log("接收到消息的topic为：" + topic);
-    console.log("接收到的号码为：" + msg);
+    console.log("提取货柜号为：" + msg);
   
    //var statement = new RegExp(msg).test(string);
    // if(statement==true)

@@ -154,18 +154,18 @@ body {
     margin-left: 5px;
 }
 .message{
-    font-size: 10px;
+    font-size: 14px;
     display: flex;
     flex-direction: column;
     margin-top:40px;
     height:200px;
+
    
 }
 
 .message span{
     margin-bottom: 16px;
     color: #00D2BA;
-    font-weight: bold;
     letter-spacing: 2px;
     width: 200px;
 }
@@ -187,11 +187,14 @@ body {
    
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
     border-radius: 5px;
+    color: red;
+    font-weight: bold;
 }
 .title{
     letter-spacing: 3px;
     font-size: 20px;
     text-align: center;
+    color: black;
 }
 /*
  * Styles for the Score Panel
