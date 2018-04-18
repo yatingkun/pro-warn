@@ -143,47 +143,64 @@ var card = document.getElementsByClassName('card');
     let addId = document.getElementById("add-productId").value - 1;
     add(addId);
 }*/
-let message = '';
+let message = [];
+
 
 function check(boxId) {
+    document.getElementById("message").innerHTML = '';
     let product_id = card[boxId].getElementsByTagName("i")[0].id;
     let state = card[boxId].getElementsByTagName("i")[1].className;
     if (state == "true") {
         card[boxId].className = "card show open animated wobble";
         card[boxId].getElementsByTagName("i")[1].className = false;
         count = count - 1;
-        if (document.getElementById("message").childElementCount < 5) {
-            message += '<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n';
-            document.getElementById("message").innerHTML = message;
+        if (message.length < 5) {
             card[boxId].className = "card show match ";
-        } else if (document.getElementById("message").childElementCount == 5)
-            //alert("货物ID:" + product_id + "已成功取出!");
-            document.getElementById("message").children[4].innerHTML = '<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n';
-        //document.getElementById("message").innerHTML=message;
-        //card[boxId].className = "card show match ";
-
+            message.push('<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n');
+        } else if (message.length == 5) {
+            card[boxId].className = "card show match ";
+            for (let i = 0; i < message.length - 1; i++) {
+                message[i] = message[i + 1];
+            }
+            message[message.length - 1] = '<span>货物' + product_id + '取出!货柜' + (boxId + 1) + '置空' + getTime() + '</span>\n';
+        }
+        for (let i = 0; i < message.length; i++) {
+            document.getElementById("message").innerHTML += message[i];
+        }
     } else {
         card[boxId].className = "card show error";
-        if (document.getElementById("message").childElementCount < 5) {
+        setTimeout(function() {
+        card[boxId].className = "card show match animated wobble";
+    },1000);
+
+        if (message.length < 5) {
+            message.push('<span class=\"faile\">' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n');
+        } else if (message.length == 5) {
+            for (let i = 0; i < message.length - 1; i++) {
+                message[i] = message[i + 1];
+            }
+            message[message.length - 1] = '<span class=\"faile\">' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
+        }
+        for (let i = 0; i < message.length; i++) {
+            document.getElementById("message").innerHTML += message[i];
+        }
+        /* if (document.getElementById("message").childElementCount < 5) {
             setTimeout(function() {
-                //alert("抱歉" + boxId + "号货柜为空！取货失败!");
-                // let message="抱歉" + boxId + "号货柜为空！取货失败!";
-                //document.getElementById("state").innerHTML+=message;
                 message += '<span class=\"faile\">抱歉' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
                 document.getElementById("message").innerHTML = message;
                 card[boxId].className = "card show match animated wobble";
             }, 500)
-        }else if(document.getElementById("message").childElementCount == 5){
-          document.getElementById("message").children[4].innerHTML= '<span class=\"faile\">抱歉' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
+        } else if (document.getElementById("message").childElementCount == 5) {
+            document.getElementById("message").children[4].innerHTML = '<span class=\"faile\">抱歉' + (boxId + 1) + '号货柜为空，取货失败' + getTime() + '</span>\n';
         }
+    }*/
+        // document.getElementById("check-productId").value = "";
     }
-    // document.getElementById("check-productId").value = "";
-
     document.getElementsByClassName('count')[0].innerHTML = count + "个";
 
 }
 /********接收添加的货柜号，做出相应处理*******/
-function add(addId) {
+/*function add(addId) {
 
     if (card[addId].getElementsByTagName("i")[1].className == "false") {
         count = count + 1;
@@ -199,7 +216,7 @@ function add(addId) {
     }
     //document.getElementById("add-productId").value = "";
     document.getElementsByClassName('count')[0].innerHTML = count + "个";
-}
+}*/
 
 /**********获取时间的函数**************/
 function getTime() {
