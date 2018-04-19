@@ -130,11 +130,28 @@ window.onload = initial;
 /******************************主要流程***********************************************/
 var card = document.getElementsByClassName('card');
 
-function check(boxId) {
-    if (isNaN(parseInt(boxId, 10))||(boxId>15||boxId<1)) {
-        document.getElementById("message").innerHTML = '请输入1~15的数字！';
-    } else {
-        document.getElementById("message").innerHTML = '';
+function pick(boxId) {
+    // document.getElementById("message").innerHTML = '';
+    // document.getElementById("message").innerHTML = '检测到非法数据:'+boxId+ '请输入1~15的数字！';
+    //if (boxId) {
+    document.getElementById("message").innerHTML = '';
+    if (isNaN(parseInt(boxId, 10)) || (boxId > 15 || boxId < 0)) {
+        if (message.length < messageLength) {
+            message.push('<span class=\"faile\">检测到非法数据：' + boxId + ' 请输入1~15的数字！</span>\n');
+        } else if (message.length == messageLength) {
+            for (let i = 0; i < message.length - 1; i++) { //将信息数组各上调一个位置。
+                message[i] = message[i + 1];
+            }
+            message[message.length - 1] = '<span class=\"faile\">检测到非法数据：' + boxId + ' 请输入1~15的数字！</span>\n';
+        }
+        for (let i = 0; i < message.length; i++) { //将消息数组显示在message的div
+            document.getElementById("message").innerHTML += message[i];
+        }
+
+    }
+    else {
+        // document.getElementById("message").innerHTML = '';
+        var boxId = boxId - 1;
         let product_id = card[boxId].getElementsByTagName("i")[0].id;
         let state = card[boxId].getElementsByTagName("i")[1].className;
         if (state == "true") {
@@ -200,3 +217,20 @@ function setMessage(messageLength, boxId, product_id, state) {
         document.getElementById("message").innerHTML += message[i];
     }
 }
+
+/*function check(boxId, messageLength) {
+    if (isNaN(parseInt(boxId, 10)) || (boxId > 15 || boxId < 0)) {
+        if (message.length < messageLength) {
+            message.push('<span class=\"faile\">检测到非法数据：' + boxId + ' 请输入1~15的数字！</span>\n');
+        } else if (message.length == messageLength) {
+            for (let i = 0; i < message.length - 1; i++) { //将信息数组各上调一个位置。
+                message[i] = message[i + 1];
+            }
+            message[message.length - 1] = '<span class=\"faile\">检测到非法数据：' + boxId + ' 请输入1~15的数字！</span>\n';
+        }
+
+    }
+    /*for (let i = 0; i < message.length; i++) { //将消息数组显示在message的div
+        document.getElementById("message").innerHTML += message[i];
+    }
+}*/

@@ -47,7 +47,7 @@ client.onMessageArrived = function(message) {
     
     //{add(msg-1);}
    // else{
-        check(msg-1);
+        pick(msg);
     //}
 
 }
