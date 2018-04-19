@@ -1,5 +1,5 @@
 /*随机生成图片*/
-const messageLength = 4; //设置显示的消息条数。
+const messageLength = 6; //设置显示的消息条数。
 var message = []; //存放消息的数组。
 var count = 15; //仓库的跟踪数。
 function shuffle(array) {
