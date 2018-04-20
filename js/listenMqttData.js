@@ -1,10 +1,12 @@
  /********JS监听来自matt服务器数据的方法*************/
 
+
+const clientid ="paho1513850198";       //js中设置的客户端标识，可随意，但不应与自己mqtt客户端上的标识重复，否则会互相挤掉，无法进行应用的模拟
+const topic="test";     //订阅的主题    
+const ip="127.0.0.1";       //服务器的的ip
+const port=61623;       //服务器的端口号
 /********1.首先建立mqtt类的对象。(注意这里仅仅是建立类的对象，还没有做任何连接操作*********/
-const clientid ="paho1513850198";
-const topic="test";
-const string="add"
-client = new Paho.MQTT.Client("127.0.0.1",61623,clientid); //第一个参数是mqtt服务器ip，第二个参数是mqtt服务的端口，第三个参数是自己的clientid.
+client = new Paho.MQTT.Client(ip,port,clientid); //第一个参数是mqtt服务器ip，第二个参数是mqtt服务的端口，第三个参数是自己的clientid.
 
  var option = {
     onSuccess: function() {
