@@ -1,41 +1,52 @@
-html {
+html
+{
     box-sizing: border-box;
 }
 
 *,
 *::before,
-*::after {
+*::after
+{
     box-sizing: inherit;
 }
 
 html,
-body {
+body
+{
     width: 100%;
     height: 100%;
     margin: 0;
     padding: 0;
 }
 
-body {
-    background: #ffffff url('../img/geometry2.png');
+body
+{
     /* Background pattern from Subtle Patterns */
     font-family: 'Coda', cursive;
+
+    background: #fff url('../img/geometry2.png');
 }
-.main{
+.main
+{
     display: flex;
+
     justify-content: center;
 }
-.container {
-    margin-top:55px;
-    display: flex;  
+.container
+{
+    display: flex;
     flex-direction: column;
-    align-items: center;
+
+    margin-top: 55px;
     margin-left: 20px;
 
+    align-items: center;
 }
 
-.container div{
+.container div
+{
     font-size: 20px;
+
     margin-bottom: 30px;
 }
 
@@ -43,157 +54,201 @@ body {
  * Styles for the deck of cards
  */
 
-.deck {
+.deck
+{
+    display: flex;
+
     width: 750px;
     min-height: 580px;
-    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    margin: 0 0 3em;
     padding: 32px;
+
     border-radius: 10px;
-    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
-    display: flex;
+    background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
+    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, .5);
+
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    margin: 0 0 3em;
 }
 
-.deck .card {
-    height: 100px;
-    width: 100px;
-    background: #2e3d49;
+.deck .card
+{
     font-size: 0;
-    color: #ffffff;
-    border-radius: 8px;
-    cursor: pointer;
+
     display: flex;
+
+    width: 100px;
+    height: 100px;
+
+    cursor: pointer;
+
+    color: #fff;
+    border-radius: 8px;
+    background: #2e3d49;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, .5);
+
     justify-content: center;
     align-items: center;
-    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
 }
-.num {
-    
-    
+.num
+{
     width: 125px;
+    margin-bottom: 5px;
+    padding-right: 20px;
+
     list-style: none;
+
     text-align: center;
-   margin-bottom: 5px;
-   padding-right: 20px;
-    
 }
 
-.deck .card.open {
+.deck .card.open
+{
+    cursor: default;
     transform: rotateY(0);
+
     background: #02b3e4;
-    cursor: default;
 }
 
-.deck .card.error {
+.deck .card.error
+{
+    cursor: default;
     transform: rotateY(0);
+
     background: red;
-    cursor: default;
 }
 
-.deck .card.show {
+.deck .card.show
+{
     font-size: 33px;
 }
 
-.deck .card.match {
+.deck .card.match
+{
+    font-size: 33px;
+
     cursor: default;
+
     background: #02ccba;
-    font-size: 33px;
 }
 
 
 
-.warn {
-    display: flex;  
-    height: 25px;
+.warn
+{
+    display: flex;
+
     width: 25px;
-    background: #2e3d49;
-    color: #ffffff;
-    border-radius: 8px;
+    height: 25px;
+
     cursor: pointer;
+
+    color: #fff;
+    border-radius: 8px;
+    background: #2e3d49;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, .5);
+
     justify-content: center;
-    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
 }
 
-.warn.match {
+.warn.match
+{
     cursor: default;
+
     background: #02ccba;
 }
 
-.warn.error {
-    background: red;
+.warn.error
+{
     cursor: default;
+
+    background: red;
 }
 
 
-.right{
+.right
+{
     display: flex;
     flex-direction: column;
+
     padding-left: 40px;
 }
-.symbol {
+.symbol
+{
     display: flex;
-    margin-top:115px; 
-    justify-content: space-between; 
-    width: 200px;
 
+    width: 200px;
+    margin-top: 115px;
+
+    justify-content: space-between;
 }
-.symbol-container {
+.symbol-container
+{
     display: flex;
     flex-direction: column;
+
     align-items: center;
-    
 }
 
-.text {
-    margin-top: 5px;
+.text
+{
     font-size: 12px;
     font-weight: bold;
+
+    margin-top: 5px;
     margin-left: 5px;
 }
-.message{
+.message
+{
     font-size: 14px;
+
     display: flex;
     flex-direction: column;
-    margin-top:40px;
-    height:200px;
 
-   
+    height: 200px;
+    margin-top: 40px;
 }
 
-.message span{
-    margin-bottom: 16px;
-    color: #00D2BA;
-    letter-spacing: 2px;
+.message span
+{
     width: 200px;
+    margin-bottom: 16px;
+
+    letter-spacing: 2px;
+
+    color: #00d2ba;
 }
 
-.message .faile{
-    
+.message .faile
+{
     color: red;
-   
 }
-.message .saved{
+.message .saved
+{
     color: black;
 }
-.state{
+.state
+{
+    font-weight: bold;
+
     display: flex;
     flex-direction: column;
-    border: 1px solid #D6D4D6;
-    height:535px;
+
+    height: 535px;
     margin-top: 10px;
-   
-    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
-    border-radius: 5px;
+
     color: red;
-    font-weight: bold;
+    border: 1px solid #d6d4d6;
+    border-radius: 5px;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, .5);
 }
-.title{
-    letter-spacing: 3px;
+.title
+{
     font-size: 20px;
+
     text-align: center;
+    letter-spacing: 3px;
+
     color: black;
 }
 /*
