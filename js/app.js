@@ -129,40 +129,54 @@ function initial() { //初始化;
 window.onload = initial;
 /******************************主要流程***********************************************/
 var card = document.getElementsByClassName('card');
+var music = document.getElementById("music");
+var errormusic = document.getElementById("error-music");
 
 function pick(boxId) {
+
     document.getElementById("message").innerHTML = '';
     if (isNaN(parseInt(boxId, 10)) || (boxId > 15 || boxId < 0)) {
         if (message.length < messageLength) {
-            message.push('<span class=\"faile\">检测到非法数据：' + boxId + ' 请输入1~15的数字！</span>\n');
+            message.push('<span class=\"faile\">非法数据：' + boxId + ' 请输入1~15的数字！' + getTime() + '</span>\n');
         } else if (message.length == messageLength) {
             for (let i = 0; i < message.length - 1; i++) { //将信息数组各上调一个位置。
                 message[i] = message[i + 1];
             }
-            message[message.length - 1] = '<span class=\"faile\">检测到非法数据：' + boxId + ' 请输入1~15的数字！</span>\n';
+            message[message.length - 1] = '<span class=\"faile\">非法数据：' + boxId + ' 请输入1~15的数字！' + getTime() + '</span>\n';
         }
         for (let i = 0; i < message.length; i++) { //将消息数组显示在message的div
             document.getElementById("message").innerHTML += message[i];
         }
+       
 
     } else {
+        music.play();
         var boxId = boxId - 1;
         let product_id = card[boxId].getElementsByTagName("i")[0].id;
         let state = card[boxId].getElementsByTagName("i")[1].className;
         if (state == "true") {
-            card[boxId].className = "card show match animated wobble";
+            setTimeout(function() {
+                card[boxId].className = "card show match animated wobble";
+            }, 500);
+            
             setMessage(messageLength, boxId, product_id, state);
             card[boxId].getElementsByTagName("i")[1].className = false;
             count = count - 1;
         } else {
-            card[boxId].className = "card show error";
+            errormusic.play();
             setTimeout(function() {
+                card[boxId].className = "card show error";
+            }, 500);
+
+            setTimeout(function() {
+
                 card[boxId].className = "card show match animated wobble";
             }, 1000);
             setMessage(messageLength, boxId, product_id, state);
         }
     }
     document.getElementsByClassName('count')[0].innerHTML = count + "个";
+
 }
 /********接收添加的货柜号，做出相应处理*******/
 /*function add(addId) {
@@ -212,3 +226,4 @@ function setMessage(messageLength, boxId, product_id, state) {
         document.getElementById("message").innerHTML += message[i];
     }
 }
+/************播放提示音效******************/

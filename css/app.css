@@ -22,7 +22,7 @@ body
 body
 {
     /* Background pattern from Subtle Patterns */
-    font-family: 'Coda', cursive;
+    font-family: 'Coda', cursive, "Microsoft YaHei";
 
     background: #fff url('../img/geometry2.png');
 }
@@ -237,7 +237,6 @@ body
     height: 535px;
     margin-top: 10px;
 
-    color: red;
     border: 1px solid #d6d4d6;
     border-radius: 5px;
     box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, .5);

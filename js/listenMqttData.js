@@ -11,6 +11,7 @@ client = new Paho.MQTT.Client(ip,port,clientid); //第一个参数是mqtt服务�
  var option = {
     onSuccess: function() {
         console.log("onConnected");
+       // document.getElementById("message").innerHTML="MQTT服务器连接成功！"
         client.subscribe(topic);
     },
     onFailure: function() {
@@ -43,14 +44,9 @@ client.onMessageArrived = function(message) {
     //console.log("接收到消息：");
     //console.log("接收到消息的topic为：" + topic);
     console.log("提取货柜号为：" + msg);
-  
-   //var statement = new RegExp(msg).test(string);
-   // if(statement==true)
-    
-    //{add(msg-1);}
-   // else{
+   // music();
         pick(msg);
-    //}
+  
 
 }
 
@@ -60,18 +56,5 @@ client.onConnectionLost = function(responseObject) {
         console.log("异常掉线，掉线信息为:" + responseObject.errorMessage);
         //client.reconnect();
     }
-   /* else{
-console.log("重新连接")
-        //client.connect(option);
- client.reconnect();
-    }*/
+   
 }
-/*var str    = "My blog name is Benjamin-专注前端开发和用户体验",
-    substr = "Ben";
- 
-function isContains(str, substr) {
-    return new RegExp(substr).test(str);
-}
- 
-//true
-console.log(isContains(str, substr));*/
