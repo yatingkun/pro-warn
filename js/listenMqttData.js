@@ -41,9 +41,8 @@ client.onMessageArrived = function(message) {
     //console.log("消息已到达");
    // var topic = message.destinationName;
     var msg = message.payloadString;
-    //console.log("接收到消息：");
-    //console.log("接收到消息的topic为：" + topic);
     console.log("提取货柜号为：" + msg);
+    
    // music();
         pick(msg);
   

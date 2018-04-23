@@ -2,6 +2,7 @@
 const messageLength = 6; //设置显示的消息条数。
 var message = []; //存放消息的数组。
 var count = 15; //仓库的跟踪数。
+const sear = new RegExp('add'); //添加货物时，服务器发布的消息需要含有'add'字符串。
 function shuffle(array) {
     var currentIndex = array.length,
         temporaryValue, randomIndex;
@@ -134,69 +135,94 @@ var errormusic = document.getElementById("error-music");
 
 function pick(boxId) {
 
+    if (sear.test(boxId)) {　　 //检测boxId中是否有add的字眼。
+        var boxId = pickNum(boxId) - 1;
+        add(boxId);　　
+    } else {
+
+        document.getElementById("message").innerHTML = '';
+        if (isNaN(parseInt(boxId, 10)) || (boxId > 15 || boxId < 0 || (boxId.indexOf(" ") != -1))) {
+            errormusic.currentTime = 1;
+            errormusic.play(); //错误提示的音效。
+            if (message.length < messageLength) {
+                message.push('<span class=\"faile\">非法数据：' + boxId + ' 请输入1~15的数字！' + getTime() + '</span>\n');
+            } else if (message.length == messageLength) {
+                for (let i = 0; i < message.length - 1; i++) { //将信息数组各上调一个位置。
+                    message[i] = message[i + 1];
+                }
+                message[message.length - 1] = '<span class=\"faile\">非法数据：' + boxId + ' 请输入1~15的数字！' + getTime() + '</span>\n';
+            }
+            for (let i = 0; i < message.length; i++) { //将消息数组显示在message的div
+                document.getElementById("message").innerHTML += message[i];
+            }
+        } else {
+            music.currentTime = 0.4; //成功提示的音效。
+            music.play();
+            var boxId = boxId - 1;
+            let product_id = card[boxId].getElementsByTagName("i")[0].id;
+            let state = card[boxId].getElementsByTagName("i")[1].className;
+            if (state == "true") {
+                card[boxId].className = "card show match animated wobble";
+                setMessage(messageLength, boxId, product_id, state);
+                card[boxId].getElementsByTagName("i")[1].className = false;
+                count = count - 1;
+            } else {
+                errormusic.play();
+                card[boxId].className = "card show error";
+                setTimeout(function() {
+                    card[boxId].className = "card show match animated wobble";
+                }, 1000);
+                setMessage(messageLength, boxId, product_id, state);
+            }
+        }
+        document.getElementsByClassName('count')[0].innerHTML = count + "个";
+    }
+}
+/********接收添加的货柜号，做出相应处理*******/
+function add(addId) {
     document.getElementById("message").innerHTML = '';
-    if (isNaN(parseInt(boxId, 10)) || (boxId > 15 || boxId < 0)) {
+    if (isNaN(parseInt(addId, 10)) || ((addId + 1) > 15 || (addId + 1) < 0)) {
+        errormusic.currentTime = 1;
+        errormusic.play(); //错误提示的音效。
         if (message.length < messageLength) {
-            message.push('<span class=\"faile\">非法数据：' + boxId + ' 请输入1~15的数字！' + getTime() + '</span>\n');
+            message.push('<span class=\"faile\">非法数据：' + (addId + 1) + '' + getTime() + '</span>\n');
         } else if (message.length == messageLength) {
             for (let i = 0; i < message.length - 1; i++) { //将信息数组各上调一个位置。
                 message[i] = message[i + 1];
             }
-            message[message.length - 1] = '<span class=\"faile\">非法数据：' + boxId + ' 请输入1~15的数字！' + getTime() + '</span>\n';
         }
-        for (let i = 0; i < message.length; i++) { //将消息数组显示在message的div
-            document.getElementById("message").innerHTML += message[i];
-        }
-       
-
-    } else {
-        music.play();
-        var boxId = boxId - 1;
-        let product_id = card[boxId].getElementsByTagName("i")[0].id;
-        let state = card[boxId].getElementsByTagName("i")[1].className;
-        if (state == "true") {
-            setTimeout(function() {
-                card[boxId].className = "card show match animated wobble";
-            }, 500);
-            
-            setMessage(messageLength, boxId, product_id, state);
-            card[boxId].getElementsByTagName("i")[1].className = false;
-            count = count - 1;
-        } else {
-            errormusic.play();
-            setTimeout(function() {
-                card[boxId].className = "card show error";
-            }, 500);
-
-            setTimeout(function() {
-
-                card[boxId].className = "card show match animated wobble";
-            }, 1000);
-            setMessage(messageLength, boxId, product_id, state);
-        }
-    }
-    document.getElementsByClassName('count')[0].innerHTML = count + "个";
-
-}
-/********接收添加的货柜号，做出相应处理*******/
-/*function add(addId) {
-
-    if (card[addId].getElementsByTagName("i")[1].className == "false") {
+        message[message.length - 1] = '<span class=\"faile\">非法数据：' + (addId + 1) + '' + getTime() + '</span>\n';
+    } else if (card[addId].getElementsByTagName("i")[1].className == "false") {
         count = count + 1;
         card[addId].getElementsByTagName("i")[1].className = "true";
-        //alert(addId.value + "号货柜添加物品成功!");
+        if (message.length < messageLength) {
+            message.push('<span >' + (addId + 1) + '号仓库添加成功！' + getTime() + '</span>\n');
+        } else if (message.length == messageLength) {
+            for (let i = 0; i < message.length - 1; i++) { //将信息数组各上调一个位置。
+                message[i] = message[i + 1];
+            }
+            message[message.length - 1] = '<span>' + (addId + 1) + '号仓库添加成功！' + getTime() + '</span>\n';
+        }
         card[addId].className = "card animated wobble";
     } else {
         card[addId].className = "card error animated wobble";
-        setTimeout(function() {
-            alert("对不起！添加的" + (addId + 1) + "号货柜已存有物品！")
-            card[addId].className = "card ";
-        }, 600)
-    }
-    //document.getElementById("add-productId").value = "";
-    document.getElementsByClassName('count')[0].innerHTML = count + "个";
-}*/
+        if (message.length < messageLength) {
+            message.push('<span class=\"faile\">' + (addId + 1) + '号货柜有货，添加失败！' + getTime() + '</span>\n');
+        } else if (message.length == messageLength) {
+            for (let i = 0; i < message.length - 1; i++) { //将信息数组各上调一个位置。
+                message[i] = message[i + 1];
+            }
+            message[message.length - 1] = '<span class=\"faile\">' + (addId + 1) + '号货柜有货，添加失败！' + getTime() + '</span>\n';
+        }
 
+        card[addId].className = "card ";
+
+    }
+    for (let i = 0; i < message.length; i++) { //将消息数组显示在message的div
+        document.getElementById("message").innerHTML += message[i];
+    }
+    document.getElementsByClassName('count')[0].innerHTML = count + "个";
+}
 /**********获取时间的函数**************/
 function getTime() {
     var myDate = new Date();
@@ -226,4 +252,13 @@ function setMessage(messageLength, boxId, product_id, state) {
         document.getElementById("message").innerHTML += message[i];
     }
 }
-/************播放提示音效******************/
+/*从字符串中提取数字*/
+function pickNum(boxId) {
+    var arr = boxId.split(/[a-zA-Z @#%^&*$]/); //去除大小写字母和@#%^&*$与空格符号。
+    var len = arr.length;
+    var str2 = '';
+    for (let i = 0; i < len; i++) {
+        str2 += arr[i];
+    }
+    return str2;　　
+}
